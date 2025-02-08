@@ -1,0 +1,16 @@
+{
+  "events": [
+    { "id": 1, "title": "Community Meetup", "description": "Join our local community meetup this weekend!", "image": "https://via.placeholder.com/300" },
+    { "id": 2, "title": "PokemonGo Tournament", "description": "Participate in the upcoming PokemonGo Tournament!", "image": "https://via.placeholder.com/300" },
+    { "id": 3, "title": "Nature Walk Event", "description": "Explore nature with a group of fellow players.", "image": "https://via.placeholder.com/300" }
+  ],
+  "announcements": [
+    { "id": 4, "title": "Game Update v2.0", "description": "Exciting new features and bug fixes!", "image": "https://via.placeholder.com/300" },
+    { "id": 5, "title": "Maintenance Notice", "description": "The game will be down for scheduled maintenance tomorrow.", "image": "https://via.placeholder.com/300" },
+    { "id": 6, "title": "New Region Unlock", "description": "A new region is now available for exploration!", "image": "https://via.placeholder.com/300" }
+  ],
+  "lostAndFound": [
+    { "id": 7, "title": "Lost Phone", "location": "Park", "postedBy": "John", "timestamp": "2025-02-05 10:00", "description": "A black iPhone was lost near the park's entrance.", "lat": 40.730610, "lon": -73.935242, "image": "https://via.placeholder.com/300" },
+    { "id": 8, "title": "Lost Wallet", "location": "Mall", "postedBy": "Emily", "timestamp": "2025-02-04 09:00", "description": "A brown leather wallet was lost in the shopping area.", "lat": 34.052235, "lon": -118.243683, "image": "https://via.placeholder.com/300" }
+  ]
+}
