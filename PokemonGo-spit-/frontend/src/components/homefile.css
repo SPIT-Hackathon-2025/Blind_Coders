@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+   
+  }
+  
+.search-bar {
+    display: flex;
+    gap : 20px;
+    position: relative;
+    width: 100%;
+   /* align-items: center; */
+   justify-content: center;
+    margin: 0 auto;
+  }
+  .search-bar input {
+    width: 400px; /* Ensures the input spans the full width of its container */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  
+  
+  
+  .search-bar input {
+    padding: 15px;
+    width: 600px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: larger;
+    border-radius: 30px;
+
+  }
+  
+  .search-bar button {
+    width: 150px;
+    border-radius: 35px;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    font-size: larger;
+   
+  }
+  
+  .search-bar button:hover {
+    background-color: #333;
+  }
+ 
+  .suggestions-dropdown {
+    position: absolute;
+    top: 100%; /* Directly below the search bar */
+    left: 0;
+    width: 45%; /* Match the width of the input */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 300px; /* Limit the height */
+    overflow-y: auto; /* Allow scrolling for overflow */
+    font-size: 16px;
+    margin-left: 280px;
+    border-radius: 30px;
+    justify-content: left;
+    color:black;
+  }
+  
+  .suggestion-item {
+    padding: 10px 15px; /* Add some padding for better spacing */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-align: left;
+    font-weight: 400;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+  }
+  .suggestion-item + .suggestion-item {
+    border-top: 1px solid #ddd; /* Add border between items */
+  }
+  

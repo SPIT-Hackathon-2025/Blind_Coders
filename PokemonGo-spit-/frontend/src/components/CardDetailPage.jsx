@@ -73,7 +73,7 @@ function CardDetailPage() {
           <div className="flex flex-col md:flex-row md:space-x-6 mb-6">
             {/* Text section */}
             <div className="flex-1">
-              <p>Posted by: {cardDetails.postedBy}</p>
+              <p>Posted by: {cardDetails.email}</p>
               <p>Posted on: {cardDetails.timestamp}</p>
               <p>Location: {cardDetails.location}</p>
             </div>

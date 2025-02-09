@@ -7,6 +7,7 @@ import MapView from './MapView';
 import { signOut } from 'firebase/auth'; // Import signOut from Firebase
 import { auth } from '../firebase'; // Firebase authentication instance
 import { useAuth } from './AuthContext'; // Assuming you have AuthContext to manage authentication state
+import "./homefile.css"
 
 function HomePage() {
   const [location, setLocation] = useState(null);
@@ -127,7 +128,7 @@ function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white ">
       {/* Icon Navigation aligned to the extreme right */}
       <div className="flex ml-auto">
         <button

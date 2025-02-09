@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Tooltip, useMap, Circle, Popup } from 
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Custom markers with different colors
 const userIcon = new L.Icon({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -37,9 +36,7 @@ const farEventIcon = new L.Icon({
   className: 'gray-icon'
 });
 
-// Enhanced demo event data with more spread out locations
 const demoEventLocations = [
-  // Nearby events (Mumbai)
   {
     latitude: 19.0760,
     longitude: 72.8777,
@@ -59,37 +56,6 @@ const demoEventLocations = [
     date: '2025-03-20',
     time: '5:30 PM',
     type: 'meetup'
-  },
-  // Distant events (Other cities)
-  {
-    latitude: 18.5204,
-    longitude: 73.8567,
-    title: 'Pune Dev Conference',
-    description: 'Developer Conference & Workshop',
-    venue: 'Pune Tech Park',
-    date: '2025-03-25',
-    time: '9:00 AM',
-    type: 'conference'
-  },
-  {
-    latitude: 12.9716,
-    longitude: 77.5946,
-    title: 'Bangalore AI Summit',
-    description: 'AI/ML Conference',
-    venue: 'Bangalore Convention Center',
-    date: '2025-04-01',
-    time: '2:00 PM',
-    type: 'conference'
-  },
-  {
-    latitude: 28.6139,
-    longitude: 77.2090,
-    title: 'Delhi Tech Week',
-    description: 'Technology Exhibition',
-    venue: 'Delhi Exhibition Center',
-    date: '2025-04-05',
-    time: '10:00 AM',
-    type: 'exhibition'
   }
 ];
 
@@ -134,7 +100,7 @@ function MapView() {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;
   };
-
+  
   const updateEvents = (position) => {
     if (!position) return;
 
@@ -152,10 +118,37 @@ function MapView() {
     // Mark events as nearby or distant
     const updatedEvents = eventsWithDistance.map(event => ({
       ...event,
-      isNearby: event.distance <= 20 // Only mark as nearby if distance is <= 20 km
+      isNearby: event.distance <= 10 // Mark as nearby if distance is <= 10 km
     }));
 
     setEventsList(updatedEvents);
+
+    // Send email notification if any event is within 10 km
+    updatedEvents.forEach(event => {
+      if (event.isNearby) {
+        sendEmailNotification(event);
+      }
+    });
+  };
+
+  const sendEmailNotification = (event) => {
+    fetch('/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        eventTitle: event.title,
+        eventDescription: event.description,
+        eventVenue: event.venue,
+        eventDate: event.date,
+        eventTime: event.time,
+        eventDistance: event.distance.toFixed(1)
+      })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Email sent successfully:', data))
+    .catch(error => console.error('Error sending email:', error));
   };
 
   useEffect(() => {
@@ -191,16 +184,14 @@ function MapView() {
       <div className="map-wrapper" style={{ flex: 1 }}>
         <MapContainer 
           center={userLocation || defaultPosition} 
-          zoom={6} // Zoomed out to show more events
+          zoom={6} 
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-
           <LocationMarker position={userLocation} setUserLocation={setUserLocation} />
-
           {eventsList.map((event, index) => (
             <Marker
               key={index}
@@ -222,7 +213,7 @@ function MapView() {
                   <p><strong>Type:</strong> {event.type}</p>
                   <p><strong>Distance:</strong> {event.distance.toFixed(1)} km</p>
                   <p className="distance-note">
-                    {event.isNearby ? '(Within 20km radius)' : '(Outside 20km radius)'}
+                    {event.isNearby ? '(Within 10km radius)' : '(Outside 10km radius)'}
                   </p>
                 </div>
               </Popup>
@@ -230,29 +221,8 @@ function MapView() {
           ))}
         </MapContainer>
       </div>
-
-      {/* Event List Section - Only show events within 20 km */}
-      <div className="event-list" style={{ width: '300px', paddingLeft: '20px', overflowY: 'auto' }}>
-        <h2>Events List</h2>
-        {eventsList.filter(event => event.isNearby).length === 0 ? (
-          <p>No events found nearby.</p>
-        ) : (
-          <ul>
-            {eventsList.filter(event => event.isNearby).map((event, index) => (
-              <li key={index}>
-                <div className="event-item">
-                  <div className={`event-type ${event.isNearby ? 'nearby' : 'distant'}`}>
-                    {event.title} ({event.distance.toFixed(1)} km)
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 }
-
 
 export default MapView;
