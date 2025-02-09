@@ -8,11 +8,11 @@
 
 /* Individual Hotel Card Styling */
 .hotel-card {
-  border: 1px solid #ddd;
+  border: 1px solid #333;
   padding: 20px;
-  background-color: #fff;
+  background-color: #1c1c1c; /* Dark background */
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@
 
 .hotel-card:hover {
   transform: scale(1.05); /* Slightly enlarge card */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enlarge the shadow on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
 }
 
 .hotel-image {
@@ -43,12 +43,12 @@
 .hotel-card h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #fff; /* White text for dark theme */
 }
 
 .hotel-card p {
   font-size: 1rem;
-  color: #555;
+  color: #ccc; /* Lighter gray text */
   margin: 5px 0;
 }
 
@@ -58,18 +58,18 @@
 
 .star {
   font-size: 1.5rem;
-  color: #070bd1; /* Gold color for the star */
+  color: #f5e342; /* Gold color for the star */
 }
 
 .star.filled {
-  color: #9900ff; /* Full color for the filled star */
+  color: #ffcc00; /* Bright yellow for filled stars */
 }
 
 .price {
   margin-top: 10px;
   font-weight: bold;
   font-size: 1.2rem;
-  color: #333;
+  color: #fff; /* Bright text for price */
 }
 
 /* Modal Styling */
@@ -90,10 +90,10 @@
 .modal-content {
   max-width: 90%;
   max-height: 90%;
-  background-color: #fff;
+  background-color: #1c1c1c;
   border-radius: 8px;
   padding: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .zoomed-image {
@@ -116,6 +116,7 @@
 .rating-filter label {
   font-size: 1.2rem;
   margin-right: 10px;
+  color: #fff; /* White text for labels */
 }
 
 #rating {
@@ -123,24 +124,25 @@
   width: 200px;
   height: 10px;
   border-radius: 5px;
-  background: linear-gradient(to right, white, rgb(23, 4, 135));
+  background: linear-gradient(to right, #555, #333); /* Darker gradient background */
   outline: none;
   transition: background 0.3s ease;
 }
+
 .rating-filter input[type="range"] {
   -webkit-appearance: none; /* Remove default styling */
   appearance: none;
   width: 100%;
   height: 8px;
-  background: linear-gradient(to right, #ffb400, #051289); /* Gradient background */
+  background: linear-gradient(to right, #ffb400, #9900ff); /* Gradient background */
   border-radius: 5px;
   outline: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 #rating:hover {
-  background: linear-gradient(to right, white, rgb(22, 3, 109)
-  );
+  background: linear-gradient(to right, #ffb400, #6600cc); /* Darker gradient on hover */
 }
 
 #rating::-webkit-slider-thumb {
@@ -148,30 +150,29 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #e6e2e0;
+  background-color: #ccc;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 #rating::-webkit-slider-thumb:hover {
-  background-color: #efe9e8;
+  background-color: #fff;
 }
 
 #rating::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #fbf4f2;
+  background-color: #ccc;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 #rating::-moz-range-thumb:hover {
-  background-color: white;
+  background-color: #fff;
 }
 
 .rating-filter span {
   font-size: 1rem;
-  color:white;
-  margin-left: 10px;
+  color: #fff; /* White text for the rating display */
 }

@@ -91,7 +91,7 @@ app.get("/fetch-hotels", async (req, res) => {
         };
         
         const response = await axios.get(url, { params, headers });
-        console.log("Hotel API Response:", response.data); 
+        // console.log("Hotel API Response:", response.data); 
         res.status(200).json(response.data);  // Send the correct data to the frontend
     } catch (err) {
         console.error("Error fetching hotels:", err);

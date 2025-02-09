@@ -53,7 +53,7 @@ function LostAndFound() {
               id: data.reportId,
               image: data.imageUrl,
               title: data.title || "unknown",
-              description: data.location,
+              description: data.description||"Unknown",
               location: data.locationCoordinates, // Assuming location is stored as { lat, lon }
             });
           }
@@ -93,7 +93,7 @@ function LostAndFound() {
               key={item.id}
               image={item.image} // Ensure the image field is correct
               title={item.title}
-              description={`${item.description} - ${item.distance} km away`} // Display the distance
+              description={`${item.description}`} // Display the distance
               onClick={() => handleCardClick(item.id)}
             />
           ))}

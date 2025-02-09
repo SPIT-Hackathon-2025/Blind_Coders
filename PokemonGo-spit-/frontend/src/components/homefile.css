@@ -1,88 +1,134 @@
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-   
-  }
-  
-.search-bar {
-    display: flex;
-    gap : 20px;
-    position: relative;
-    width: 100%;
-   /* align-items: center; */
-   justify-content: center;
-    margin: 0 auto;
-  }
-  .search-bar input {
-    width: 400px; /* Ensures the input spans the full width of its container */
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  
-  
-  
-  .search-bar input {
-    padding: 15px;
-    width: 600px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: larger;
-    border-radius: 30px;
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Ensures the sections stay in line */
+}
 
-  }
-  
-  .search-bar button {
-    width: 150px;
-    border-radius: 35px;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #000;
-    color: #fff;
-    cursor: pointer;
-    font-size: larger;
-   
-  }
-  
-  .search-bar button:hover {
-    background-color: #333;
-  }
- 
-  .suggestions-dropdown {
-    position: absolute;
-    top: 100%; /* Directly below the search bar */
-    left: 0;
-    width: 45%; /* Match the width of the input */
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    max-height: 300px; /* Limit the height */
-    overflow-y: auto; /* Allow scrolling for overflow */
-    font-size: 16px;
-    margin-left: 280px;
-    border-radius: 30px;
-    justify-content: left;
-    color:black;
-  }
-  
-  .suggestion-item {
-    padding: 10px 15px; /* Add some padding for better spacing */
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    text-align: left;
-    font-weight: 400;
-  }
-  
-  .suggestion-item:hover {
-    background-color: #f0f0f0; /* Highlight on hover */
-  }
-  .suggestion-item + .suggestion-item {
-    border-top: 1px solid #ddd; /* Add border between items */
-  }
-  
+.notifications-section {
+  width: 75%; /* Take 3/4 of the screen */
+  padding-right: 15px;
+}
+
+.lost-found-section {
+  width: 25%; /* Take 1/4 of the screen */
+  padding-left: 15px;
+}
+
+.vertical-line {
+  width: 1px; /* Creates the vertical line */
+  background-color: #ccc;
+  height: 100%; /* Stretch the line across the height */
+  transition: all 0.3s ease-in-out; /* Add transition for lighting effect */
+}
+
+/* Lighting effect on hover */
+.vertical-line:hover {
+  background-color: #084ec6;
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+}
+
+/* Tooltip container */
+.tooltip {
+  position: absolute;
+  bottom: 60px; /* Adjust the position of the tooltip */
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Tooltip visible state */
+.tooltip-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Updated Search Bar Styles */
+.search-bar {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  width: 100%;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.search-bar input {
+  width: 600px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  font-size: larger;
+  background-color: white;
+  color: black;
+}
+
+.search-bar button {
+  width: 150px;
+  border-radius: 35px;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #084ec6;
+  color: #fff;
+  cursor: pointer;
+  font-size: larger;
+}
+
+.search-bar button:hover {
+  background-color: #333;
+}
+
+/* Suggestion Dropdown Styles */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 100px;
+  width: 39%;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 16px;
+  margin-left: 280px;
+  justify-content: left;
+  color: #fff;
+  padding: 10px;
+}
+
+/* Suggestion Items */
+.suggestion-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  text-align: left;
+  font-weight: 400;
+  border-radius: 8px;
+}
+
+.suggestion-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(10px);
+}
+
+.suggestion-item + .suggestion-item {
+  border-top: 1px solid #444;
+}
+
+.suggestions-dropdown {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.suggestions-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+}

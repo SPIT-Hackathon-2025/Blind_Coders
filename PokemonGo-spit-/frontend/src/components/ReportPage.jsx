@@ -11,6 +11,7 @@ function ReportPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [issueType, setIssueType] = useState(""); // Track issueType
   const [description, setDescription] = useState(""); // Track description
+  const [title, setTitle] = useState(""); // Track title
   const [user, setUser] = useState(null); // Track user authentication status
   const navigate = useNavigate();
 
@@ -69,7 +70,7 @@ function ReportPage() {
       return; // Exit if user is not authenticated
     }
 
-    if (!imageUrl || !location || !issueType || !description) {
+    if (!title || !imageUrl || !location || !issueType || !description) {
       alert("Please provide all required details.");
       return;
     }
@@ -83,6 +84,7 @@ function ReportPage() {
       // Add report data to Firestore
       const reportRef = await addDoc(collection(db, "reports"), {
         email: user.email, // Store the user's email from Firebase Authentication
+        title: title, // Store the title
         issueType: issueType,
         location: location,
         description: description,
@@ -106,6 +108,7 @@ function ReportPage() {
 
       // Reset form
       setImageUrl("");
+      setTitle("");
       setIssueType("");
       setDescription("");
       e.target.reset();
@@ -123,6 +126,18 @@ function ReportPage() {
         <h2 className="text-2xl font-bold mb-6 text-center">Store Issue Report</h2>
         {user ? (
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block mb-2 text-sm font-medium">Title:</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+                className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none"
+                placeholder="Enter the title"
+              />
+            </div>
+
             <div>
               <label className="block mb-2 text-sm font-medium">Location:</label>
               <input

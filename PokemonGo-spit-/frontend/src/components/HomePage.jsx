@@ -3,11 +3,66 @@ import { useNavigate } from 'react-router-dom';
 import { Map, LayoutDashboard, Plus } from 'lucide-react';
 import OtherNotifications from './OtherNotifications';
 import LostAndFound from './LostAndFound';
-import MapView from './MapView';
-import { signOut } from 'firebase/auth'; // Import signOut from Firebase
-import { auth } from '../firebase'; // Firebase authentication instance
-import { useAuth } from './AuthContext'; // Assuming you have AuthContext to manage authentication state
-import "./homefile.css"
+import MapView from './MapView';  // Import your MapView component
+import { signOut } from 'firebase/auth'; 
+import { auth } from '../firebase'; 
+import { useAuth } from './AuthContext'; 
+import { User } from 'lucide-react';
+import './homefile.css';
+
+const ProfileMenu = ({ onLogout }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+  const { userEmail } = useAuth(); 
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={menuRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-4 right-3 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-colors"
+      >
+        <User size={24} />
+      </button>
+
+      {isOpen && (
+        <div className="fixed top-14 right-3 w-80 bg-gray-800 rounded-lg shadow-lg py-2 border border-gray-700 z-50">
+          <div className="px-4 py-3 border-b border-gray-700">
+            <div className="flex items-center space-x-3">
+              <div className="bg-gray-600 p-3 rounded-full">
+                <User size={24} className="text-gray-300" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-200">Profile</p>
+                <p className="text-xs text-gray-400">{userEmail || 'Guest User'}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Menu Items */}
+          <div className="px-4 py-2">
+            <button
+              onClick={onLogout}
+              className="w-full text-left px-2 py-2 text-lg text-red-400 hover:bg-gray-700 rounded transition-colors"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 function HomePage() {
   const [location, setLocation] = useState(null);
@@ -15,12 +70,13 @@ function HomePage() {
   const [viewMode, setViewMode] = useState('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false); // Added for suggestions dropdown
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const { logout } = useAuth();
   const dropdownRef = useRef(null);
 
-  // Reverse Geocoding Function to fetch area name based on latitude and longitude
+  // Reverse Geocoding Function
   const fetchAreaName = async (latitude, longitude) => {
     try {
       const response = await fetch(`https://geocode.xyz/${latitude},${longitude}?geoit=json`);
@@ -54,23 +110,21 @@ function HomePage() {
     }
   }, []);
 
-  const handleReport = () => {
+  const handleReports = () => {
     navigate('/report');
   };
 
-  // Handle logout
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Sign out from Firebase
-      logout(); // Update auth state in context
-      navigate('/'); // Navigate to login page after logout
+      await signOut(auth);
+      logout();
+      navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
       alert('Logout failed. Please try again.');
     }
   };
 
-  // Search query handling
   const handleSearch = () => {
     if (searchQuery.trim() === '') {
       alert('Please enter a search term.');
@@ -92,18 +146,15 @@ function HomePage() {
 
     try {
       const response = await fetch(`http://localhost:5000/search-suggestions?query=${query}`);
-
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-
       if (data.length === 0) {
         setSuggestions(['No matches found']);
       } else {
         setSuggestions(data);
       }
-
       setShowSuggestions(true);
     } catch (err) {
       console.error('Error fetching suggestions:', err.message);
@@ -128,52 +179,41 @@ function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white ">
-      {/* Icon Navigation aligned to the extreme right */}
+    <div className="min-h-screen bg-gray-900 text-white">
       <div className="flex ml-auto">
         <button
           aria-label="Map View"
-          className={`p-3 rounded-md transition-colors m-2 ${
-            viewMode === 'map' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-slate-700 hover:bg-slate-800'
-          }`}
+          className={`p-3 rounded-md transition-colors m-2 ${viewMode === 'map' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-slate-700 hover:bg-slate-800'}`}
           onClick={() => setViewMode('map')}
         >
           <Map size={24} />
         </button>
         <button
           aria-label="Dashboard View"
-          className={`p-3 rounded-md transition-colors m-2 ${
-            viewMode === 'dashboard' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-slate-700 hover:bg-slate-800'
-          }`}
+          className={`p-3 rounded-md transition-colors m-2 ${viewMode === 'dashboard' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-slate-700 hover:bg-slate-800'}`}
           onClick={() => setViewMode('dashboard')}
         >
           <LayoutDashboard size={24} />
         </button>
       </div>
 
-      {/* Main Content Section */}
-      <div className="">
-        {viewMode === 'dashboard' ? (
-          <div className="flex flex-col md:flex-row min-h-screen p-8">
-            <div className="md:w-3/4 w-full md:pr-4 mb-6 md:mb-0">
-              <OtherNotifications />
-            </div>
-            <div className="md:w-1/3 w-full md:pl-4">
-              <LostAndFound area={area} />
-            </div>
-          </div>
-        ) : (
-          <div className="">
-            <MapView
-              userLocation={location}
-              eventLocations={eventLocations}
-              lostAndFoundLocations={lostAndFoundLocations}
-            />
-          </div>
-        )}
-      </div>
+      {/* Profile Menu */}
+      <ProfileMenu onLogout={handleLogout} className="z-50" />
 
-      {/* Search Bar */}
+      {viewMode === 'map' ? (
+        <MapView locations={eventLocations.concat(lostAndFoundLocations)} /> // Display the map view here
+      ) : (
+        <div className="flex-container min-h-screen p-8">
+          <div className="notifications-section">
+            <OtherNotifications />
+          </div>
+          <div className="divider"></div>
+          <div className="lost-found-section border-l-white border-l-2">
+            <LostAndFound area={area} />
+          </div>
+        </div>
+      )}
+
       <div className="search-bar" ref={dropdownRef}>
         <input
           type="text"
@@ -183,7 +223,7 @@ function HomePage() {
         />
         <button onClick={handleSearch}>Search</button>
         {showSuggestions && suggestions.length > 0 && (
-          <div className="suggestions-dropdown">
+          <div className={`suggestions-dropdown ${showSuggestions ? 'show' : ''}`}>
             {suggestions.map((suggestion, index) => (
               <div
                 key={index}
@@ -197,22 +237,25 @@ function HomePage() {
         )}
       </div>
 
-      {/* Floating Action Button */}
       <button
-        onClick={handleReport}
+        onClick={handleReports}
         aria-label="Report Issue"
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-colors"
+        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-colors flex items-center justify-center overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)} 
+        onMouseLeave={() => setIsHovered(false)} 
       >
-        <Plus size={24} />
+        <img
+          src="/images/pokemon logo.png"
+          alt="Pokémon Ball"
+          className="transition-all duration-300 transform w-12 h-12"
+        />
+        <span
+          className={`transition-all duration-300 transform ${isHovered ? "size-10 translate-x-0" : "size-0 translate-x-4"} text-sm font-semibold ml-2`}
+        >
+          Add Report
+        </span>
       </button>
 
-      {/* Logout Button */}
-      <button
-        onClick={handleLogout}
-        className="fixed top-2 right-3 bg-red-600 hover:bg-red-700 text-white font-bold p-3 rounded-full shadow-lg"
-      >
-        Logout
-      </button>
     </div>
   );
 }

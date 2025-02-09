@@ -56,7 +56,7 @@ function OtherNotifications() {
               id: data.reportId,
               image: data.imageUrl,
               title: data.title || "Unknown",
-              description: data.location,
+              description: data.description||"Unknown",
               location: data.locationCoordinates, // Assuming location is stored as { lat, lon }
             });
           } else if(data.issueType === "ann") {
@@ -64,7 +64,7 @@ function OtherNotifications() {
               id: data.reportId,
               image: data.imageUrl,
               title: data.title || "Unknown",
-              description: data.location,
+              description: data.description||"Unknown",
               location: data.locationCoordinates, // Assuming location is stored as { lat, lon }
             });
           }
@@ -117,7 +117,7 @@ function OtherNotifications() {
           key={event.id}
           image={event.image}
           title={event.title}
-          description={`${event.description} - ${event.distance} km away`} // Corrected string interpolation with curly braces
+          description={`${event.description}`} // Corrected string interpolation with curly braces
           onClick={() => handleEventCardClick(event.id)}
         />
         ))}
@@ -130,7 +130,7 @@ function OtherNotifications() {
           key={announcement.id}
           image={announcement.image}
           title={announcement.title}
-          description={`${announcement.description} - ${announcement.distance} km away`} // Corrected string interpolation
+          description={`${announcement.description}`} // Corrected string interpolation
           onClick={() => handleAnnouncementCardClick(announcement.id)}
         />
         ))}
